@@ -24,6 +24,11 @@ test('Returns the results of promises + non-promises', async (t) => {
 	t.deepEqual(res, expected)
 })
 
+test('Returns empty object with no parameter', async (t) => {
+	const obj = await asyncObject()
+	t.deepEqual(obj, {})
+})
+
 test('Throws an error is one promise throws', async (t) => {
 	const err = await t.throws(asyncObject({
 		foo: fail(100),
