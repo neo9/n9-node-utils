@@ -27,3 +27,42 @@ import { N9Error } from 'n9-node-utils'
 
 throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' })
 ```
+
+## waitFor
+
+Waits for ms milliseconds to pass, use `setTimeout` under the hood.
+
+`waitFor(ms: number): Promise`
+
+Arguments:
+
+- ms: `Number`, default: `0`
+
+Example:
+
+```ts
+import { waitFor } from 'n9-node-utils'
+
+(async () => {
+  await waitFor(1000) // wait for 1s
+})()
+```
+
+## waitForEvent
+
+Waits for emitter to emit an eventName event.
+
+`waitForEvent(emitter: EventEmitter, eventName: string): Promise<Array>`
+
+Arguments:
+
+- emitter: `EventEmitter`
+- eventName: `String`
+
+Example:
+
+```ts
+import { waitForEvent } from 'n9-node-utils'
+
+await waitForEvent(sever, 'listen')
+```

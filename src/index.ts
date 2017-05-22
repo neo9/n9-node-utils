@@ -1,3 +1,5 @@
+import { EventEmitter } from 'events'
+
 /*
 ** N9Error(message [, status] [, context])
 */
@@ -13,4 +15,20 @@ export class N9Error extends Error {
 		this.context = context || {}
 		Error.captureStackTrace(this, N9Error)
 	}
+}
+
+/*
+** waitFor(ms)
+*/
+export async function waitFor(ms?: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms || 0))
+}
+
+/*
+** waitForEvent(emmiter, eventName)
+*/
+export async function waitForEvent(emmiter: EventEmitter, eventName: string) {
+	return new Promise((resolve, reject) => {
+		emmiter.once(eventName, (...args) => resolve([...args]))
+	})
 }
