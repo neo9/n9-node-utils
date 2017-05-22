@@ -43,9 +43,7 @@ Example:
 ```ts
 import { waitFor } from 'n9-node-utils'
 
-(async () => {
-  await waitFor(1000) // wait for 1s
-})()
+await waitFor(1000) // wait for 1s
 ```
 
 ## waitForEvent
@@ -93,7 +91,7 @@ console.log(results.pictures, results.comments, results.tweets)
 
 ## ok
 
-Waits for the value of promise. If promise throws an Error, returns undefined.
+Waits for the value of promise. If promise throws an Error, returns `undefined`.
 
 `ok(promise: Object): Promise`
 
