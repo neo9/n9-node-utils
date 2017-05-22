@@ -34,7 +34,7 @@ export async function waitForEvent(emmiter: EventEmitter, eventName: string) {
 }
 
 /*
-** asyncObject(obj)
+** asyncObject(obj): Promise<Object>
 */
 export async function asyncObject(obj = {}) {
 	const containsPromise = (key) => obj[key] && typeof obj[key].then === 'function'
@@ -47,4 +47,15 @@ export async function asyncObject(obj = {}) {
 		container[key] = result
 	})
 	return container
+}
+
+/*
+** ok(promise: Promise): <Promise>
+*/
+export async function ok(promise: Promise<any>): Promise<any> {
+	try {
+		return await promise
+	} catch (err) {
+		return
+	}
 }

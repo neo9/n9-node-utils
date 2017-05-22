@@ -71,7 +71,7 @@ await waitForEvent(sever, 'listen')
 
 Waits for all Promises in the keys of `obj` to resolve.
 
-`asyncObject(obj: Object): promise<Object>`
+`asyncObject(obj: Object): Promise<Object>`
 
 Arguments:
 
@@ -89,4 +89,25 @@ const results = await asyncObject({
 })
 
 console.log(results.pictures, results.comments, results.tweets)
+```
+
+## ok
+
+Waits for the value of promise. If promise throws an Error, returns undefined.
+
+`ok(promise: Object): Promise`
+
+Arguments:
+
+- promise: `Promise`
+
+Example:
+
+```ts
+import { readFile } from 'fs-extra'
+import { ok } from 'n9-node-utils'
+
+const file = await ok(readFile('./my-file.txt', 'utf-8'))
+
+if (file) console.log('File found:', file)
 ```
