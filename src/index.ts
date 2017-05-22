@@ -32,3 +32,19 @@ export async function waitForEvent(emmiter: EventEmitter, eventName: string) {
 		emmiter.once(eventName, (...args) => resolve([...args]))
 	})
 }
+
+/*
+** asyncObject(obj)
+*/
+export async function asyncObject(obj = {}) {
+	const containsPromise = (key) => obj[key] && typeof obj[key].then === 'function'
+	const keys = Object.keys(obj).filter(containsPromise)
+	const promises = keys.map((key) => obj[key])
+	const results = await Promise.all(promises)
+	const container = Object.assign({}, obj)
+	results.forEach((result, index) => {
+		const key = keys[index]
+		container[key] = result
+	})
+	return container
+}

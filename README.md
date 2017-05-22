@@ -66,3 +66,27 @@ import { waitForEvent } from 'n9-node-utils'
 
 await waitForEvent(sever, 'listen')
 ```
+
+## asyncObject
+
+Waits for all Promises in the keys of `obj` to resolve.
+
+`asyncObject(obj: Object): promise<Object>`
+
+Arguments:
+
+- obj: `Object`, default: `{}`
+
+Example:
+
+```ts
+import { asyncObject } from 'n9-node-utils'
+
+const results = await asyncObject({
+  pictures: getPictures(),
+  comments: getComments(),
+  tweets: getTweets()
+})
+
+console.log(results.pictures, results.comments, results.tweets)
+```

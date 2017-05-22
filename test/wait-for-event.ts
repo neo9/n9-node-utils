@@ -16,7 +16,7 @@ test('Should wait until event is emitted', async (t) => {
 	const emitter = newEmitter('listen', 100)
 	const start = Date.now()
 	await waitForEvent(emitter, 'listen')
-	t.true(Date.now() - start >= 100)
+	t.true(Date.now() - start >= 90)
 })
 
 test('Should work without parameter', async (t) => {
