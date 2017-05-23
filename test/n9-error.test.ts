@@ -7,7 +7,7 @@ test('Should throw an error with a message', (t) => {
 	t.is(err.message, 'test')
 	t.is(err.status, 500)
 	t.deepEqual(err.context, {})
-	t.true(err.stack.includes('dist/test/n9-error.js'))
+	t.true(err.stack.includes('test/n9-error.test.ts'))
 })
 
 test('Should throw an error (status)', (t) => {

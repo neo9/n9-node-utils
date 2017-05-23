@@ -18,6 +18,29 @@ export class N9Error extends Error {
 }
 
 /*
+** ok(promise: Promise): <Promise>
+*/
+export async function ok(promise: Promise<any>): Promise<any> {
+	try {
+		return await promise
+	} catch (err) {
+		return
+	}
+}
+
+/*
+** cb(fn: Function, args: ...any): <Promise>
+*/
+export async function cb(fn: (...args: any[]) => any, ...args: any[]): Promise<any> {
+	return new Promise((resolve, reject) => {
+		fn(...args, (err, result) => {
+			if (err) return reject(err)
+			resolve(result)
+		})
+	})
+}
+
+/*
 ** waitFor(ms)
 */
 export async function waitFor(ms?: number) {
@@ -47,15 +70,4 @@ export async function asyncObject(obj = {}) {
 		container[key] = result
 	})
 	return container
-}
-
-/*
-** ok(promise: Promise): <Promise>
-*/
-export async function ok(promise: Promise<any>): Promise<any> {
-	try {
-		return await promise
-	} catch (err) {
-		return
-	}
 }

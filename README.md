@@ -28,6 +28,50 @@ import { N9Error } from 'n9-node-utils'
 throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' })
 ```
 
+
+## ok
+
+Waits for the value of promise. If promise throws an Error, returns `undefined`.
+
+`ok(promise: Object): Promise`
+
+Arguments:
+
+- promise: `Promise`
+
+Example:
+
+```ts
+import { readFile } from 'fs-extra'
+import { ok } from 'n9-node-utils'
+
+// readFile sends back a Promise since we use fs-extra
+const file = await ok(readFile('./my-file.txt', 'utf-8'))
+
+if (file) console.log('File found:', file)
+```
+
+## cb
+
+Calls a function `fn` that takes arguments `args` and an `(err, result)` callback. Waits for the `callback` result, throwing an `Error` if `err` is truthy.
+
+`cb(fn: Function, ...args: any[]): Promise`
+
+Arguments:
+
+- fn: `Function`, a function that takes a callback
+- args: (...`any`) arguments to pass to `fn`
+
+Example:
+
+```ts
+import { cb } from 'n9-node-utils'
+
+const file = await cb(readFile('./my-file.txt', 'utf-8'))
+
+console.log('File content:', file)
+```
+
 ## waitFor
 
 Waits for ms milliseconds to pass, use `setTimeout` under the hood.
@@ -87,25 +131,4 @@ const results = await asyncObject({
 })
 
 console.log(results.pictures, results.comments, results.tweets)
-```
-
-## ok
-
-Waits for the value of promise. If promise throws an Error, returns `undefined`.
-
-`ok(promise: Object): Promise`
-
-Arguments:
-
-- promise: `Promise`
-
-Example:
-
-```ts
-import { readFile } from 'fs-extra'
-import { ok } from 'n9-node-utils'
-
-const file = await ok(readFile('./my-file.txt', 'utf-8'))
-
-if (file) console.log('File found:', file)
 ```
