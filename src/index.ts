@@ -43,14 +43,14 @@ export async function cb(fn: (...args: any[]) => any, ...args: any[]): Promise<a
 /*
 ** waitFor(ms)
 */
-export async function waitFor(ms?: number) {
+export async function waitFor(ms?: number): Promise<any> {
 	return new Promise((resolve) => setTimeout(resolve, ms || 0))
 }
 
 /*
 ** waitForEvent(emmiter, eventName)
 */
-export async function waitForEvent(emmiter: EventEmitter, eventName: string) {
+export async function waitForEvent(emmiter: EventEmitter, eventName: string): Promise<any> {
 	return new Promise((resolve, reject) => {
 		emmiter.once(eventName, (...args) => resolve([...args]))
 	})
@@ -59,7 +59,7 @@ export async function waitForEvent(emmiter: EventEmitter, eventName: string) {
 /*
 ** asyncObject(obj): Promise<Object>
 */
-export async function asyncObject(obj = {}) {
+export async function asyncObject(obj = {}): Promise<any> {
 	const containsPromise = (key) => obj[key] && typeof obj[key].then === 'function'
 	const keys = Object.keys(obj).filter(containsPromise)
 	const promises = keys.map((key) => obj[key])
