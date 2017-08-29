@@ -1,5 +1,5 @@
 {
-  "name": "@neo9/node-utils",
+  "name": "@neo9/n9-node-utils",
   "version": "1.4.2",
   "description": "Neo9 Node Utils Module",
   "main": "dist/src/index.js",
