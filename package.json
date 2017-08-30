@@ -1,34 +1,34 @@
 {
   "name": "@neo9/n9-node-utils",
   "version": "1.4.3",
-  "description": "Neo9 Node Utils Module",
+  "description": "Node Utils Module",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [
     "dist/src"
   ],
+  "nyc": {
+    "include": [
+      "dist/src/"
+    ]
+  },
   "scripts": {
     "build": "rimraf dist/ && tsc",
     "lint": "tslint src/*.ts",
-    "test": "npm run lint && npm run build && nyc --reporter=lcov ava --verbose dist/test/ && n9-sonar-generate",
+    "test": "npm run lint && npm run build && nyc ava --verbose --serial dist/test/ && nyc report --reporter=html",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "preversion": "npm test",
     "prepublish": "npm run build"
   },
-  "sonar": {
-    "coverage.exclusions": "src/*.d.ts",
-    "ts.coverage.lcovReportPath": "./coverage/lcov.info",
-    "ts.tslint.path": "./node_modules/.bin/tslint",
-    "ts.tslint.configPath": "./tslint.json"
-  },
   "repository": {
     "type": "git",
-    "url": "ssh://git@scm.bytefactory.fr:2222/n9node/n9-node-conf.git"
+    "url": "git+https://github.com/neo9/n9-node-utils"
   },
   "author": "Sebastien Chopin <sebastien.chopin@neo9.fr>",
   "devDependencies": {
     "@types/node": "^8.0.25",
     "ava": "^0.22.0",
-    "@neo9/n9-node-sonar-generate": "^1.1.0",
+    "codecov": "^2.3.0",
     "nyc": "^11.1.0",
     "rimraf": "^2.6.1",
     "tslint": "^5.7.0",

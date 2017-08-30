@@ -2,15 +2,20 @@
 
 Neo9 Node Utils Module.
 
+[![npm version](https://img.shields.io/npm/v/@neo9/n9-node-utils.svg)](https://www.npmjs.com/package/@neo9/n9-node-utils)
+[![Travis](https://img.shields.io/travis/neo9/n9-node-utils/master.svg)](https://travis-ci.org/neo9/n9-node-utils)
+[![Coverage](https://img.shields.io/codecov/c/github/neo9/n9-node-utils/master.svg)](https://codecov.io/gh/neo9/n9-node-utils)
+[![license](https://img.shields.io/github/license/neo9/n9-node-utils.svg)](https://github.com/neo9/n9-node-utils/blob/master/LICENSE)
+
 ## Installation
 
 ```bash
-npm install --save n9-node-utils
+npm install --save @neo9/n9-node-utils
 ```
 
 ## N9Error
 
-Custom error class (extends `Error`), used by [n9-node-micro](http://scm.bytefactory.fr/projects/N9NODE/repos/n9-node-micro/browse) for API errors with status code and context.
+Custom error class (extends `Error`), used by [n9-node-micro](https://github.com/neo9/n9-node-micro) for API errors with status code and context.
 
 `new N9Error(message [, statusCode] [, context])`
 
@@ -23,7 +28,7 @@ Arguments:
 Example:
 
 ```ts
-import { N9Error } from 'n9-node-utils'
+import { N9Error } from '@neo9/n9-node-utils'
 
 throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' })
 ```
@@ -43,7 +48,7 @@ Example:
 
 ```ts
 import { readFile } from 'fs-extra'
-import { ok } from 'n9-node-utils'
+import { ok } from '@neo9/n9-node-utils'
 
 // readFile sends back a Promise since we use fs-extra
 const file = await ok(readFile('./my-file.txt', 'utf-8'))
@@ -65,7 +70,7 @@ Arguments:
 Example:
 
 ```ts
-import { cb } from 'n9-node-utils'
+import { cb } from '@neo9/n9-node-utils'
 
 const file = await cb(readFile('./my-file.txt', 'utf-8'))
 
@@ -85,7 +90,7 @@ Arguments:
 Example:
 
 ```ts
-import { waitFor } from 'n9-node-utils'
+import { waitFor } from '@neo9/n9-node-utils'
 
 await waitFor(1000) // wait for 1s
 ```
@@ -104,7 +109,7 @@ Arguments:
 Example:
 
 ```ts
-import { waitForEvent } from 'n9-node-utils'
+import { waitForEvent } from '@neo9/n9-node-utils'
 
 await waitForEvent(sever, 'listen')
 ```
@@ -122,7 +127,7 @@ Arguments:
 Example:
 
 ```ts
-import { asyncObject } from 'n9-node-utils'
+import { asyncObject } from '@neo9/n9-node-utils'
 
 const results = await asyncObject({
   pictures: getPictures(),
