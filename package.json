@@ -33,5 +33,12 @@
     "rimraf": "^2.6.1",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
-  }
+  },
+  "keywords": [
+    "node utils",
+    "utils",
+    "async await",
+    "waitFor",
+    "waitForEvent"
+  ]
 }
