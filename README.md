@@ -26,7 +26,9 @@ npm install --save @neo9/n9-node-utils
 
 Custom error class (extends `Error`), used by [n9-node-micro](https://github.com/neo9/n9-node-micro) for API errors with status code and context.
 
-`new N9Error(message [, statusCode] [, context])`
+```ts
+new N9Error(message [, statusCode] [, context])
+```
 
 Arguments:
 
@@ -47,7 +49,9 @@ throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' })
 
 Waits for the value of promise. If promise throws an Error, returns `undefined`.
 
-`ok(promise: Object): Promise`
+```ts
+ok(promise: Object): Promise
+```
 
 Arguments:
 
@@ -69,7 +73,9 @@ if (file) console.log('File found:', file)
 
 Calls a function `fn` that takes arguments `args` and an `(err, result)` callback. Waits for the `callback` result, throwing an `Error` if `err` is truthy.
 
-`cb(fn: Function, ...args: any[]): Promise`
+```ts
+cb(fn: Function, ...args: any[]): Promise
+```
 
 Arguments:
 
@@ -90,7 +96,9 @@ console.log('File content:', file)
 
 Waits for ms milliseconds to pass, use `setTimeout` under the hood.
 
-`waitFor(ms: number): Promise`
+```ts
+waitFor(ms: number): Promise
+```
 
 Arguments:
 
@@ -108,7 +116,9 @@ await waitFor(1000) // wait for 1s
 
 Waits for emitter to emit an eventName event.
 
-`waitForEvent(emitter: EventEmitter, eventName: string): Promise<Array>`
+```ts
+waitForEvent(emitter: EventEmitter, eventName: string): Promise<Array>
+```
 
 Arguments:
 
@@ -127,7 +137,9 @@ await waitForEvent(sever, 'listen')
 
 Waits for all Promises in the keys of `obj` to resolve.
 
-`asyncObject(obj: Object): Promise<Object>`
+```ts
+asyncObject(obj: Object): Promise<Object>
+```
 
 Arguments:
 
