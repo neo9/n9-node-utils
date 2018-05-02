@@ -1,4 +1,6 @@
+import { Response } from 'express'
 import { EventEmitter } from 'events'
+import { Transform } from 'stream'
 
 /*
 ** N9Error(message [, status] [, context])
@@ -70,4 +72,76 @@ export async function asyncObject(obj = {}): Promise<any> {
 		container[key] = result
 	})
 	return container
+}
+
+export interface N9JSONStreamOptionsBase {
+	total: number,
+	limit?: number,
+	offset?: number,
+	count?: number
+}
+
+export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
+	res?: Response
+	key?: string
+}
+
+/*
+** N9JSONStream(basObject)
+*/
+export class N9JSONStream extends Transform {
+	private first: boolean
+	private readonly base: N9JSONStreamOptionsBase
+	private readonly key: string
+
+	constructor(options: N9JSONStreamOptions) {
+		super({
+			readableObjectMode: true,
+			writableObjectMode: true
+		})
+
+		const requiredKeys = ['total']
+		requiredKeys.forEach((key) => {
+			if (typeof options[key] === 'undefined') {
+				throw new N9Error(`'${key}' property is required to N9JSONStream class`)
+			}
+		})
+		if (options.res) {
+			options.res.setHeader('Content-Type', 'application/json; charset=utf-8')
+		}
+		this.first = true
+		this.base = {
+			total: options.total,
+			limit: options.limit,
+			offset: options.offset,
+			count: 0
+		}
+		this.key = options.key || 'items'
+		this.push(`{"${this.key}":[`)
+	}
+
+	public _transform(item, encoding, next) {
+		if (!this.first) this.push(',')
+		else this.first = false
+
+		this.push(JSON.stringify(item))
+		this.base.count++
+
+		return next()
+	}
+
+	public _flush(next) {
+		const keys = ['limit', 'offset', 'total', 'count']
+
+		const keysWithValue = keys.filter((key) => typeof this.base[key] !== 'undefined')
+
+		this.push('],')
+		keysWithValue.forEach((key, i) => {
+			this.push(`"${key}": ${this.base[key]}`)
+			if (i < keysWithValue.length - 1) this.push(',')
+		})
+		this.push('}')
+
+		return next()
+	}
 }
