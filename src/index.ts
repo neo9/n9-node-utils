@@ -78,7 +78,8 @@ export interface N9JSONStreamOptionsBase {
 	total: number,
 	limit?: number,
 	offset?: number,
-	count?: number
+	count?: number,
+	metaData?: any
 }
 
 export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
@@ -114,6 +115,7 @@ export class N9JSONStream extends Transform {
 			total: options.total,
 			limit: options.limit,
 			offset: options.offset,
+			metaData: options.metaData,
 			count: 0
 		}
 		this.key = options.key || 'items'
@@ -131,13 +133,17 @@ export class N9JSONStream extends Transform {
 	}
 
 	public _flush(next) {
-		const keys = ['limit', 'offset', 'total', 'count']
+		const keys = ['limit', 'offset', 'total', 'count', 'metaData']
 
 		const keysWithValue = keys.filter((key) => typeof this.base[key] !== 'undefined')
 
 		this.push('],')
 		keysWithValue.forEach((key, i) => {
-			this.push(`"${key}": ${this.base[key]}`)
+			if (typeof this.base[key] === 'object') {
+				this.push(`"${key}": ${JSON.stringify(this.base[key])}`)
+			} else {
+				this.push(`"${key}": ${this.base[key]}`)
+			}
 			if (i < keysWithValue.length - 1) this.push(',')
 		})
 		this.push('}')
