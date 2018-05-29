@@ -87,6 +87,18 @@ export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
 	key?: string
 }
 
+/**
+ * N9JSONStreamResponse
+ */
+export interface N9JsonStreamResponse<T> {
+	items: T[]
+	count: number
+	total: number
+	limit?: number
+	offset?: number
+	metaData?: any
+}
+
 /*
 ** N9JSONStream(basObject)
 */
