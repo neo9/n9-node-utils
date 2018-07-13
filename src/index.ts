@@ -102,7 +102,7 @@ export interface N9JsonStreamResponse<T> {
 /*
 ** N9JSONStream(basObject)
 */
-export class N9JSONStream extends Transform {
+export class N9JSONStream<T = object> extends Transform {
 	private first: boolean
 	private readonly base: N9JSONStreamOptionsBase
 	private readonly key: string
@@ -134,7 +134,7 @@ export class N9JSONStream extends Transform {
 		this.push(`{"${this.key}":[`)
 	}
 
-	public _transform(item, encoding, next) {
+	public _transform(item: T, encoding, next) {
 		if (!this.first) this.push(',')
 		else this.first = false
 
