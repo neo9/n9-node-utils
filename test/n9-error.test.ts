@@ -23,3 +23,23 @@ test('Should throw an error (context)', (t) => {
 	t.is(err.status, 505)
 	t.deepEqual(err.context, { test: true })
 })
+
+test('Should render the content of an error in the context when stringified', (t) => {
+	const error: any = new Error('This is an generic JS error')
+	error.status = 'this is a status'
+	error.name = 'errors name'
+	const n9err = new N9Error('error rendering', 500, { error })
+
+	const expected = JSON.stringify({
+		status: 500,
+		context: {
+			error: {
+				status: 'this is a status',
+				name: 'errors name',
+				message: 'This is an generic JS error',
+			}
+		}
+	})
+
+	t.is(JSON.stringify(n9err), expected)
+})
