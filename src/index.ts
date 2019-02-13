@@ -12,6 +12,22 @@ export class N9Error extends Error {
 
 	constructor(message: string, status?: number, context?: any) {
 		super(message)
+
+		// we check if an error has been passed in the context
+		// if so we create an intermediary object
+		// to allow JSON.stringify to work correctly render the error's message
+		if (context) {
+			for (const key of Object.keys(context)) {
+				if (context[key] instanceof Error) {
+					context[key] = {
+						...context[key],
+						message: context[key].message,
+						name: context[key].name
+					}
+				}
+			}
+		}
+
 		this.message = message
 		this.status = status || 500
 		this.context = context || {}
