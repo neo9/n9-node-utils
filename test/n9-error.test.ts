@@ -31,6 +31,7 @@ test('Should render the content of an error in the context when stringified', (t
 	const n9err = new N9Error('error rendering', 500, { error })
 
 	const expected = JSON.stringify({
+		message: n9err.message,
 		status: 500,
 		context: {
 			error: {

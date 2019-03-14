@@ -33,6 +33,17 @@ export class N9Error extends Error {
 		this.context = context || {}
 		Error.captureStackTrace(this, N9Error)
 	}
+
+	/**
+	 *
+	 */
+	public toJSON() {
+		return {
+			message: this.message,
+			status: this.status,
+			context: this.context
+		}
+	}
 }
 
 /*
