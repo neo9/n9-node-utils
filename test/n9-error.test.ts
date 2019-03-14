@@ -30,7 +30,8 @@ test('Should render the content of an error in the context when stringified', (t
 	error.name = 'errors name'
 	const n9err = new N9Error('error rendering', 500, { error })
 
-	const expected = JSON.stringify({
+	const resultError: N9Error = {
+		name: n9err.name,
 		message: n9err.message,
 		status: 500,
 		context: {
@@ -40,7 +41,9 @@ test('Should render the content of an error in the context when stringified', (t
 				message: 'This is an generic JS error',
 			}
 		}
-	})
+	};
+
+	const expected = JSON.stringify(resultError)
 
 	t.is(JSON.stringify(n9err), expected)
 })

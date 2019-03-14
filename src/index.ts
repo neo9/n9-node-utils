@@ -37,8 +37,9 @@ export class N9Error extends Error {
 	/**
 	 *
 	 */
-	public toJSON() {
+	public toJSON?() {
 		return {
+			name: this.name,
 			message: this.message,
 			status: this.status,
 			context: this.context
