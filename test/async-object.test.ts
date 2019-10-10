@@ -1,15 +1,15 @@
-import test from 'ava'
+import test from 'ava';
 
-import { asyncObject, waitFor } from '../src'
+import { asyncObject, waitFor } from '../src';
 
-async function p(val, delay = 0) {
-	await waitFor(delay)
-	return val
+async function p(val: string, delay: number = 0): Promise<string> {
+	await waitFor(delay);
+	return val;
 }
 
-async function fail(delay = 0) {
-	await waitFor(delay)
-	throw new Error('fail')
+async function fail(delay: number = 0): Promise<void> {
+	await waitFor(delay);
+	throw new Error('fail');
 }
 
 test('Returns the results of promises + non-promises', async (t) => {
@@ -18,22 +18,22 @@ test('Returns the results of promises + non-promises', async (t) => {
 		bar: p('bar'),
 		baz: p('baz'),
 		n: null,
-		u: undefined
-	})
-	const expected = { foo: 'foo', bar: 'bar', baz: 'baz', n: null, u: undefined }
-	t.deepEqual(res, expected)
-})
+		u: undefined,
+	});
+	const expected = { foo: 'foo', bar: 'bar', baz: 'baz', n: null, u: undefined };
+	t.deepEqual(res, expected);
+});
 
 test('Returns empty object with no parameter', async (t) => {
-	const obj = await asyncObject()
-	t.deepEqual(obj, {})
-})
+	const obj = await asyncObject();
+	t.deepEqual(obj, {});
+});
 
 test('Throws an error is one promise throws', async (t) => {
 	const err = await t.throws(asyncObject({
 		foo: fail(100),
 		bar: p('bar'),
-		fail: fail()
-	}))
-	t.is(err.message, 'fail')
-})
+		fail: fail(),
+	}));
+	t.is(err.message, 'fail');
+});
