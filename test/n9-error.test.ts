@@ -24,7 +24,7 @@ test('Should throw an error (context)', (t) => {
 	t.deepEqual(err.context, { test: true });
 });
 
-test('Should render the content of an error in the context when stringified', (t) => {
+test('Should render the content of an error in the context and the stacktrace when stringified', (t) => {
 	const error: any = new Error('This is an generic JS error');
 	error.status = 'this is a status';
 	error.name = 'errors name';
@@ -46,4 +46,5 @@ test('Should render the content of an error in the context when stringified', (t
 	const expected = JSON.stringify(resultError).substring(0, -3);
 
 	t.true(JSON.stringify(n9err).includes(expected));
+	t.true(JSON.stringify(n9err).includes(`"stack":"`));
 });

@@ -44,6 +44,7 @@ export class N9Error extends Error {
 			message: this.message,
 			status: this.status,
 			context: this.context,
+			stack: this.stack
 		};
 	}
 }
