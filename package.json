@@ -29,7 +29,7 @@
     "@types/express": "^4.11.1",
     "@types/node": "^8.0.25",
     "ava": "^0.22.0",
-    "codecov": "^2.3.0",
+    "codecov": "^3.6.5",
     "nyc": "^11.1.0",
     "rimraf": "^2.6.1",
     "tslint": "^5.7.0",
