@@ -13,6 +13,17 @@ Neo9 Node Utils Module.
 npm install --save @neo9/n9-node-utils
 ```
 
+or
+
+```bash
+yarn add --dev @neo9/n9-node-utils
+```
+
+### V2 Breaking changes
+
+- Drop Node 8 support
+- Rename `N9JsonStreamResponse` to `N9JSONStreamResponse`
+
 ## Contents
 
 - [N9Error](#n9error)
@@ -39,11 +50,10 @@ Arguments:
 Example:
 
 ```ts
-import { N9Error } from '@neo9/n9-node-utils'
+import { N9Error } from '@neo9/n9-node-utils';
 
-throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' })
+throw new N9Error('file-not-found', 404, { path: '/tmp/my-file.txt' });
 ```
-
 
 ## ok
 
@@ -60,13 +70,13 @@ Arguments:
 Example:
 
 ```ts
-import { readFile } from 'fs-extra'
-import { ok } from '@neo9/n9-node-utils'
+import { readFile } from 'fs-extra';
+import { ok } from '@neo9/n9-node-utils';
 
 // readFile sends back a Promise since we use fs-extra
-const file = await ok(readFile('./my-file.txt', 'utf-8'))
+const file = await ok(readFile('./my-file.txt', 'utf-8'));
 
-if (file) console.log('File found:', file)
+if (file) console.log('File found:', file);
 ```
 
 ## cb
@@ -85,11 +95,11 @@ Arguments:
 Example:
 
 ```ts
-import { cb } from '@neo9/n9-node-utils'
+import { cb } from '@neo9/n9-node-utils';
 
-const file = await cb(readFile('./my-file.txt', 'utf-8'))
+const file = await cb(readFile('./my-file.txt', 'utf-8'));
 
-console.log('File content:', file)
+console.log('File content:', file);
 ```
 
 ## waitFor
@@ -107,9 +117,9 @@ Arguments:
 Example:
 
 ```ts
-import { waitFor } from '@neo9/n9-node-utils'
+import { waitFor } from '@neo9/n9-node-utils';
 
-await waitFor(1000) // wait for 1s
+await waitFor(1000); // wait for 1s
 ```
 
 ## waitForEvent
@@ -128,9 +138,9 @@ Arguments:
 Example:
 
 ```ts
-import { waitForEvent } from '@neo9/n9-node-utils'
+import { waitForEvent } from '@neo9/n9-node-utils';
 
-await waitForEvent(sever, 'listen')
+await waitForEvent(sever, 'listen');
 ```
 
 ## asyncObject
@@ -148,13 +158,13 @@ Arguments:
 Example:
 
 ```ts
-import { asyncObject } from '@neo9/n9-node-utils'
+import { asyncObject } from '@neo9/n9-node-utils';
 
 const results = await asyncObject({
-  pictures: getPictures(),
-  comments: getComments(),
-  tweets: getTweets()
-})
+	pictures: getPictures(),
+	comments: getComments(),
+	tweets: getTweets(),
+});
 
-console.log(results.pictures, results.comments, results.tweets)
+console.log(results.pictures, results.comments, results.tweets);
 ```

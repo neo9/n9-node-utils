@@ -2,15 +2,18 @@ import { EventEmitter } from 'events';
 import { NextFunction, Response } from 'express';
 import { Transform } from 'stream';
 
-/*
-** N9Error(message [, status] [, context])
-*/
+/**
+ * N9Error(message [, status] [, context])
+ *
+ *  @param status The HTTP Status of the error. i.e. : 404 → Not Found
+ *  @param context Should be an object helping to understand the error
+ */
 export class N9Error extends Error {
-	public message: string;
-	public status: number;
-	public context: any;
+	public readonly message: string;
+	public readonly status: number;
+	public readonly context: object;
 
-	constructor(message: string, status?: number, context?: any) {
+	constructor(message: string, status?: number, context?: Record<string, any>) {
 		super(message);
 
 		// we check if an error has been passed in the context
@@ -44,14 +47,14 @@ export class N9Error extends Error {
 			message: this.message,
 			status: this.status,
 			context: this.context,
-			stack: this.stack
+			stack: this.stack,
 		};
 	}
 }
 
 /*
-** ok(promise: Promise): <Promise>
-*/
+ ** ok(promise: Promise): <Promise>
+ */
 export async function ok(promise: Promise<any>): Promise<any> {
 	try {
 		return await promise;
@@ -61,11 +64,11 @@ export async function ok(promise: Promise<any>): Promise<any> {
 }
 
 /*
-** cb(fn: Function, args: ...any): <Promise>
-*/
-export async function cb(fn: (...args: any[]) => any, ...args: any[]): Promise<any> {
-	return new Promise((resolve, reject) => {
-		fn(...args, (err, result) => {
+ ** cb(fn: Function, args: ...any): <Promise>
+ */
+export async function cb<T = any>(fn: (...args: any[]) => any, ...args: any[]): Promise<T> {
+	return new Promise<T>((resolve, reject) => {
+		fn(...args, (err: Error, result: T) => {
 			if (err) return reject(err);
 			resolve(result);
 		});
@@ -73,15 +76,15 @@ export async function cb(fn: (...args: any[]) => any, ...args: any[]): Promise<a
 }
 
 /*
-** waitFor(ms)
-*/
+ ** waitFor(ms)
+ */
 export async function waitFor(ms?: number): Promise<any> {
 	return new Promise((resolve) => setTimeout(resolve, ms || 0));
 }
 
 /*
-** waitForEvent(emmiter, eventName)
-*/
+ ** waitForEvent(emmiter, eventName)
+ */
 export async function waitForEvent(emmiter: EventEmitter, eventName: string): Promise<any> {
 	return new Promise((resolve) => {
 		emmiter.once(eventName, (...args) => resolve([...args]));
@@ -89,11 +92,14 @@ export async function waitForEvent(emmiter: EventEmitter, eventName: string): Pr
 }
 
 /*
-** asyncObject(obj): Promise<Object>
-*/
-export async function asyncObject(obj: object = {}): Promise<any> {
-	const containsPromise = (key) => obj[key] && typeof obj[key].then === 'function';
-	const keys = Object.keys(obj).filter(containsPromise);
+ ** asyncObject(obj): Promise<Object>
+ */
+export async function asyncObject(
+	obj: Record<string, Promise<any> | any> = {},
+): Promise<Record<string, any>> {
+	const keys = Object.keys(obj).filter(
+		(key: string) => obj[key] && typeof obj[key].then === 'function',
+	);
 	const promises = keys.map((key) => obj[key]);
 	const results = await Promise.all(promises);
 	const container = Object.assign({}, obj);
@@ -120,7 +126,7 @@ export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
 /**
  * N9JSONStreamResponse
  */
-export interface N9JsonStreamResponse<T> {
+export interface N9JSONStreamResponse<T> {
 	items: T[];
 	count: number;
 	total: number;
@@ -129,26 +135,38 @@ export interface N9JsonStreamResponse<T> {
 	metaData?: any;
 }
 
-/*
-** N9JSONStream(basObject)
-*/
+/**
+ * N9JSONStream(baseObject)
+ *
+ */
 export class N9JSONStream<T = object> extends Transform {
 	private first: boolean;
 	private readonly base: N9JSONStreamOptionsBase;
 	private readonly key: string;
 
+	/**
+	 * Usage example :
+	 * ```
+	 * 	const cursor = await this.service.find(filter, page, size);
+	 *  return cursor.pipe(
+	 *    new N9JSONStream({
+	 *        res, // express response
+	 *        total: await cursor.count(),
+	 *      }),
+	 *    );
+	 *
+	 * ```
+	 * @param options should give at least Express Response to stream in, and the total number of elements
+	 */
 	constructor(options: N9JSONStreamOptions) {
 		super({
 			readableObjectMode: true,
 			writableObjectMode: true,
 		});
 
-		const requiredKeys = ['total'];
-		requiredKeys.forEach((key) => {
-			if (typeof options[key] === 'undefined') {
-				throw new N9Error(`'${key}' property is required to N9JSONStream class`);
-			}
-		});
+		if (typeof options.total === 'undefined') {
+			throw new N9Error(`'total' property is required to N9JSONStream class`);
+		}
 		if (options.res) {
 			options.res.setHeader('Content-Type', 'application/json; charset=utf-8');
 		}
@@ -169,22 +187,29 @@ export class N9JSONStream<T = object> extends Transform {
 		else this.first = false;
 
 		this.push(JSON.stringify(item));
-		this.base.count++;
+		this.base.count += 1;
 
 		return next();
 	}
 
 	public _flush(next: NextFunction): void {
-		const keys = ['limit', 'offset', 'total', 'count', 'metaData'];
+		const keys: (keyof N9JSONStreamOptionsBase)[] = [
+			'limit',
+			'offset',
+			'total',
+			'count',
+			'metaData',
+		];
 
 		const keysWithValue = keys.filter((key) => typeof this.base[key] !== 'undefined');
 
 		this.push('],');
 		keysWithValue.forEach((key, i) => {
-			if (typeof this.base[key] === 'object') {
-				this.push(`"${key}": ${JSON.stringify(this.base[key])}`);
+			const value = this.base[key];
+			if (typeof value === 'object') {
+				this.push(`"${key}": ${JSON.stringify(value)}`);
 			} else {
-				this.push(`"${key}": ${this.base[key]}`);
+				this.push(`"${key}": ${value}`);
 			}
 			if (i < keysWithValue.length - 1) this.push(',');
 		});
