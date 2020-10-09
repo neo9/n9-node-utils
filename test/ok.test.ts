@@ -1,8 +1,8 @@
-import test from 'ava';
+import ava from 'ava';
 
 import { ok, waitFor } from '../src';
 
-async function p(val: string, delay: number = 0): Promise<string> {
+async function aFucntionThatReturnAPromise(val: string, delay: number = 0): Promise<string> {
 	await waitFor(delay);
 	return val;
 }
@@ -12,12 +12,12 @@ async function fail(delay: number = 0): Promise<number> {
 	throw new Error('fail');
 }
 
-test('Returns a value on success', async (t) => {
-	const foo = await ok(p('foo'));
+ava.serial('Returns a value on success', async (t) => {
+	const foo = await ok(aFucntionThatReturnAPromise('foo'));
 	t.is(foo, 'foo');
 });
 
-test('Returns undefined on error', async (t) => {
+ava.serial('Returns undefined on error', async (t) => {
 	const res = await ok(fail());
 	t.is(res, undefined);
 });
