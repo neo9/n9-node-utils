@@ -14,7 +14,7 @@ export class N9Error extends Error {
 	public readonly hostname: string;
 	public readonly message: string;
 	public readonly status: number;
-	public readonly context: object;
+	public readonly context: any;
 
 	constructor(message: string, status?: number, context?: Record<string, any>) {
 		super(message);
@@ -118,7 +118,7 @@ export async function asyncObject(
 }
 
 export interface N9JSONStreamOptionsBase {
-	total: number | undefined;
+	total: number;
 	limit?: number;
 	offset?: number;
 	count?: number;
