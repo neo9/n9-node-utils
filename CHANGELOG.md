@@ -1,3 +1,5 @@
+# [2.0.0](https://github.com/neo9/n9-node-utils/compare/2.0.0-beta.0...2.0.0) (2020-10-09)
+
 # [2.0.0-beta.0](https://github.com/neo9/n9-node-utils/compare/v1.10.0...2.0.0-beta.0) (2020-10-09)
 
 
