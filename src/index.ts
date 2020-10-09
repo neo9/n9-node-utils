@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { NextFunction, Response } from 'express';
+import * as os from 'os';
 import { Transform } from 'stream';
 
 /**
@@ -9,12 +10,15 @@ import { Transform } from 'stream';
  *  @param context Should be an object helping to understand the error
  */
 export class N9Error extends Error {
+	public readonly date: Date;
+	public readonly hostname: string;
 	public readonly message: string;
 	public readonly status: number;
 	public readonly context: object;
 
 	constructor(message: string, status?: number, context?: Record<string, any>) {
 		super(message);
+		this.date = new Date();
 
 		// we check if an error has been passed in the context
 		// if so we create an intermediary object
@@ -35,6 +39,7 @@ export class N9Error extends Error {
 		this.message = message;
 		this.status = status || 500;
 		this.context = context || {};
+		this.hostname = os.hostname();
 		Error.captureStackTrace(this, N9Error);
 	}
 
@@ -48,6 +53,8 @@ export class N9Error extends Error {
 			status: this.status,
 			context: this.context,
 			stack: this.stack,
+			date: this.date,
+			hostname: this.hostname,
 		};
 	}
 }
@@ -111,7 +118,7 @@ export async function asyncObject(
 }
 
 export interface N9JSONStreamOptionsBase {
-	total: number;
+	total: number | undefined;
 	limit?: number;
 	offset?: number;
 	count?: number;

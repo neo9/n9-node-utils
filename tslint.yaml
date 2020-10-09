@@ -1,7 +1,7 @@
 defaultSeverity: error
 extends:
   - tslint:recommended
-  - "@neo9/n9-coding-style"
+  - '@neo9/n9-coding-style'
   - tslint-config-prettier
   - tslint-plugin-prettier
   # bug open about no-unused-variable : https://github.com/palantir/tslint/issues/3463

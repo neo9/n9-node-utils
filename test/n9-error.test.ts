@@ -49,5 +49,8 @@ ava.serial(
 
 		t.true(JSON.stringify(n9err).includes(expected));
 		t.true(JSON.stringify(n9err).includes(`"stack":"`));
+		t.true(JSON.stringify(n9err).includes('"date":"'));
+		t.true(n9err.date instanceof Date);
+		t.true(JSON.stringify(n9err).includes('"hostname":"'));
 	},
 );
