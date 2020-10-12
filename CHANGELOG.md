@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/neo9/n9-node-utils/compare/2.0.1...2.0.2) (2020-10-12)
+
+
+### n9errors
+
+* Remove readonly on context ([a5dc9ac](https://github.com/neo9/n9-node-utils/commit/a5dc9ac43f2014612be6e7167dc7c9ff51327efa))
+
 ## [2.0.1](https://github.com/neo9/n9-node-utils/compare/2.0.0...2.0.1) (2020-10-09)
 
 
