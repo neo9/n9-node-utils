@@ -14,7 +14,7 @@ export class N9Error extends Error {
 	public readonly hostname: string;
 	public readonly message: string;
 	public readonly status: number;
-	public readonly context: any;
+	public context: any;
 
 	constructor(message: string, status?: number, context?: Record<string, any>) {
 		super(message);
