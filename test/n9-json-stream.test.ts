@@ -7,7 +7,7 @@ ava.serial('Return array ', async (t) => {
 	const readable = new stream.Readable();
 
 	const stream2 = readable.pipe(
-		new N9JSONStream<object>({
+		new N9JSONStream<{ _id: string }, { test: number }>({
 			total: 5,
 			metaData: {
 				test: 1,
@@ -25,7 +25,8 @@ ava.serial('Return array ', async (t) => {
 	readable.push(null);
 
 	await waitFor(200);
-	const dataParsed: N9JSONStreamResponse<{ _id: string }> = JSON.parse(streamedData);
+	const dataParsed: N9JSONStreamResponse<{ _id: string }, { test: number }> =
+		JSON.parse(streamedData);
 	t.is(dataParsed.total, 5);
 	t.is(dataParsed.count, 4);
 	t.deepEqual(dataParsed.metaData, { test: 1 });

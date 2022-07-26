@@ -165,7 +165,7 @@ export class N9JSONStream<T = object, M = any> extends Transform {
 	 * ```
 	 * @param options should give at least Express Response to stream in, and the total number of elements
 	 */
-	constructor(options: N9JSONStreamOptions) {
+	constructor(options: N9JSONStreamOptions<M>) {
 		super({
 			readableObjectMode: true,
 			writableObjectMode: true,
