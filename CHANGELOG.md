@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/neo9/n9-node-utils/compare/2.2.0...2.2.1) (2022-07-26)
+
+
+### types
+
+* Fix type metadata usage on n9-json-stream ([3fdb85a](https://github.com/neo9/n9-node-utils/commit/3fdb85a1673d2049f419fb77a45859709edeb5ab))
+
 # [2.2.0](https://github.com/neo9/n9-node-utils/compare/2.1.0...2.2.0) (2022-07-26)
 
 
