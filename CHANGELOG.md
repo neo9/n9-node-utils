@@ -1,3 +1,14 @@
+# [2.2.0](https://github.com/neo9/n9-node-utils/compare/2.1.0...2.2.0) (2022-07-26)
+
+
+### build
+
+* Use github-actions for build instead of travis ([b7800bf](https://github.com/neo9/n9-node-utils/commit/b7800bfbf3099d0f97f730e64f71abad646073a2))
+
+### types
+
+* Add type on n9-json-stream metadata ([21e000c](https://github.com/neo9/n9-node-utils/commit/21e000c89db1a62b23a08d0ea22ccdcc1dbd145a))
+
 # [2.1.0](https://github.com/neo9/n9-node-utils/compare/2.0.2...2.1.0) (2021-05-18)
 
 
