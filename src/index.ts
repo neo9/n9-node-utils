@@ -117,15 +117,15 @@ export async function asyncObject(
 	return container;
 }
 
-export interface N9JSONStreamOptionsBase {
+export interface N9JSONStreamOptionsBase<M = any> {
 	total: number;
 	limit?: number;
 	offset?: number;
 	count?: number;
-	metaData?: any;
+	metaData?: M;
 }
 
-export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
+export interface N9JSONStreamOptions<M = any> extends N9JSONStreamOptionsBase<M> {
 	res?: Response;
 	key?: string;
 }
@@ -133,22 +133,22 @@ export interface N9JSONStreamOptions extends N9JSONStreamOptionsBase {
 /**
  * N9JSONStreamResponse
  */
-export interface N9JSONStreamResponse<T> {
+export interface N9JSONStreamResponse<T, M = any> {
 	items: T[];
 	count: number;
 	total: number;
 	limit?: number;
 	offset?: number;
-	metaData?: any;
+	metaData?: M;
 }
 
 /**
  * N9JSONStream(baseObject)
  *
  */
-export class N9JSONStream<T = object> extends Transform {
+export class N9JSONStream<T = object, M = any> extends Transform {
 	private first: boolean;
-	private readonly base: N9JSONStreamOptionsBase;
+	private readonly base: N9JSONStreamOptionsBase<M>;
 	private readonly key: string;
 
 	/**
@@ -200,7 +200,7 @@ export class N9JSONStream<T = object> extends Transform {
 	}
 
 	public _flush(next: NextFunction): void {
-		const keys: (keyof N9JSONStreamOptionsBase)[] = [
+		const keys: (keyof N9JSONStreamOptionsBase<M>)[] = [
 			'limit',
 			'offset',
 			'total',
