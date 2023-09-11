@@ -1,5 +1,6 @@
 import ava from 'ava';
 import * as stream from 'stream';
+
 import { N9JSONStream, N9JSONStreamResponse, waitFor } from '../src';
 
 ava.serial('Return array ', async (t) => {
@@ -20,7 +21,8 @@ ava.serial('Return array ', async (t) => {
 	});
 
 	const items = [{ _id: 'a' }, { _id: 'b' }, { _id: 'c' }, { _id: 'd' }];
-	items.forEach((item) => readable.push(item.toString()));
+	items.forEach((item) => readable.push(JSON.stringify(item)));
+
 	// no more data
 	readable.push(null);
 
@@ -33,5 +35,5 @@ ava.serial('Return array ', async (t) => {
 });
 
 ava.serial('Throw error with wrong params ', async (t) => {
-	await t.throws(() => new N9JSONStream({ total: undefined as any }));
+	await Promise.resolve(t.throws(() => new N9JSONStream({ total: undefined as any })));
 });

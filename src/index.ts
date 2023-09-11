@@ -2,6 +2,9 @@ import { EventEmitter } from 'events';
 import { NextFunction, Response } from 'express';
 import * as os from 'os';
 import { Transform } from 'stream';
+import { promisify } from 'util';
+
+const sleep = promisify(setTimeout);
 
 /**
  * N9Error(message [, status] [, context])
@@ -86,7 +89,9 @@ export async function cb<T = any>(fn: (...args: any[]) => any, ...args: any[]): 
  ** waitFor(ms)
  */
 export async function waitFor(ms?: number): Promise<any> {
-	return new Promise((resolve) => setTimeout(resolve, ms || 0));
+	await sleep(ms || 0);
+
+	return;
 }
 
 /*
@@ -109,7 +114,7 @@ export async function asyncObject(
 	);
 	const promises = keys.map((key) => obj[key]);
 	const results = await Promise.all(promises);
-	const container = Object.assign({}, obj);
+	const container = { ...obj };
 	results.forEach((result, index) => {
 		const key = keys[index];
 		container[key] = result;
@@ -154,15 +159,16 @@ export class N9JSONStream<T = object, M = any> extends Transform {
 	/**
 	 * Usage example :
 	 * ```
-	 * 	const cursor = await this.service.find(filter, page, size);
-	 *  return cursor.pipe(
-	 *    new N9JSONStream({
-	 *        res, // express response
-	 *        total: await cursor.count(),
-	 *      }),
-	 *    );
+	 * const cursor = await this.service.find(filter, page, size);
+	 * return cursor.pipe(
+	 * new N9JSONStream({
+	 * res, // express response
+	 * total: await cursor.count(),
+	 * }),
+	 * );
 	 *
 	 * ```
+	 *
 	 * @param options should give at least Express Response to stream in, and the total number of elements
 	 */
 	constructor(options: N9JSONStreamOptions<M>) {
@@ -174,9 +180,11 @@ export class N9JSONStream<T = object, M = any> extends Transform {
 		if (typeof options.total === 'undefined') {
 			throw new N9Error(`'total' property is required to N9JSONStream class`);
 		}
+
 		if (options.res) {
 			options.res.setHeader('Content-Type', 'application/json; charset=utf-8');
 		}
+
 		this.first = true;
 		this.base = {
 			total: options.total,
@@ -216,6 +224,7 @@ export class N9JSONStream<T = object, M = any> extends Transform {
 			if (typeof value === 'object') {
 				this.push(`"${key}": ${JSON.stringify(value)}`);
 			} else {
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
 				this.push(`"${key}": ${value}`);
 			}
 			if (i < keysWithValue.length - 1) this.push(',');
