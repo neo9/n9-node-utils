@@ -1,3 +1,17 @@
+
+
+# [3.0.0-rc.0](https://github.com/neo9/n9-node-utils/compare/2.2.1...3.0.0-rc.0) (2023-10-13)
+
+
+### node
+
+* Drop support of node below 16 and support for node 20 #30 ([0e6f807](https://github.com/neo9/n9-node-utils/commit/0e6f807165beca85a932b2001189204f7b49d23f)), closes [#30](https://github.com/neo9/n9-node-utils/issues/30)
+
+### yarn
+
+* Upgrade codecov sending ([000261f](https://github.com/neo9/n9-node-utils/commit/000261fe9409c0dcc6a9438b46a3dd84657497c3))
+* Upgrade dependencies #31 ([02a66d1](https://github.com/neo9/n9-node-utils/commit/02a66d16377a69d11e983ab8bb81316de1bb9d48)), closes [#31](https://github.com/neo9/n9-node-utils/issues/31)
+
 ## [2.2.1](https://github.com/neo9/n9-node-utils/compare/2.2.0...2.2.1) (2022-07-26)
 
 
@@ -153,4 +167,3 @@
 * Update to v 1.6.0 ([a275ff2](https://github.com/neo9/n9-node-utils/commit/a275ff2391e93d1308432b36266e7f2297accdbc))
 * Update to v 1.7.0 ([45c61d8](https://github.com/neo9/n9-node-utils/commit/45c61d8446167b66496ba58db044cc935e95c42f))
 * Update to v 1.7.1 ([2cbc628](https://github.com/neo9/n9-node-utils/commit/2cbc628318d92754e259a152c50656e2f59160fd))
-
