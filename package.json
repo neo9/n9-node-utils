@@ -26,7 +26,6 @@
     "test:dev": "export NODE_ENV=test && TS_NODE_FILES=true ava --no-worker-threads --verbose --color --serial --watch",
     "test": "export NODE_ENV=test && TS_NODE_FILES=true nyc ava --no-worker-threads --verbose --color --serial && nyc report --reporter=html",
     "test:one": "export NODE_ENV=test && TS_NODE_FILES=true ava --no-worker-threads --verbose --color --serial",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
     "release": "release-it",
     "release:pre-release": "release-it --preRelease",
     "release:dry": "release-it --dry-run"

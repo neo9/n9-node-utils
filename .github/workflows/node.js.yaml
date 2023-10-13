@@ -45,11 +45,12 @@ jobs:
         run: yarn test
 
       - name: Generate lcov file
-        run: yarn coverage
+        run: yarn nyc report --reporter=text-lcov > coverage.lcov
 
       - name: Push coverage
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
+          files: ./coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
         if: ${{ matrix.node-version == '20.x' }}
