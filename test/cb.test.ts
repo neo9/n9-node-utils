@@ -1,4 +1,4 @@
-import * as ava from 'ava';
+import ava from 'ava';
 
 import { cb } from '../src';
 
