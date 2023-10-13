@@ -51,7 +51,7 @@
     "@types/express": "^4.17.11",
     "@types/node": "^20.5.9",
     "ava": "^5.3.1",
-    "husky": "4.3.8",
+    "husky": "^4.3.8",
     "nyc": "^15.1.0",
     "prettier": "^3.0.3",
     "release-it": "^16.1.5",
