@@ -2,45 +2,56 @@
   "name": "@neo9/n9-node-utils",
   "version": "2.2.1",
   "description": "Node Utils Module",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
-  "files": [
-    "dist/src"
+  "keywords": [
+    "node utils",
+    "utils",
+    "async await",
+    "waitFor",
+    "waitForEvent"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
+  "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "rimraf dist/ && tsc",
     "dev": "rimraf dist/ && tsc --watch",
+    "build": "rimraf dist/ && tsc && rm -rf dist/test && mv dist/src/* dist/ && rm -rf dist/src",
     "format": "prettier --write '{,@(src|test)/**/}*.*'",
     "lint": "eslint --config .eslintrc.yaml '{src,test}/**/*.ts'",
-    "lint:apply": "npm run format && npx eslint --fix '{src,test}/**/*.ts'",
-    "test:dev": "export NODE_ENV=test && TS_NODE_FILES=true ava --verbose --color --serial --watch",
-    "test": "export NODE_ENV=test && TS_NODE_FILES=true nyc ava --verbose --color --serial && nyc report --reporter=html",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "preversion": "npm test",
-    "prepublishOnly": "npm run build",
-    "release": "export BABEL_DISABLE_CACHE=1 && release-it --ci",
-    "release:dry": "export BABEL_DISABLE_CACHE=1 && release-it --ci --dry-run=true",
-    "build:changelog": "conventional-changelog -i CHANGELOG.md -s -p jscs -r 0",
-    "post:release": "echo Successfully released $npm_package_version"
+    "lint:apply": "npm run format && eslint --fix --config .eslintrc.yaml '{src,test}/**/*.ts'",
+    "lint:verbose": "eslint --fix --config .eslintrc.yaml '{src,test}/**/*.ts' --format unix '{src,test}/**/*.ts'",
+    "test:debug": "export NODE_ENV=test && TS_NODE_FILES=true ava debug --no-worker-threads --verbose --color --serial --host 0.0.0.0 --port 9230 --break",
+    "test:dev": "export NODE_ENV=test && TS_NODE_FILES=true ava --no-worker-threads --verbose --color --serial --watch",
+    "test": "export NODE_ENV=test && TS_NODE_FILES=true nyc ava --no-worker-threads --verbose --color --serial && nyc report --reporter=html",
+    "test:one": "export NODE_ENV=test && TS_NODE_FILES=true ava --no-worker-threads --verbose --color --serial",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
+    "release": "release-it",
+    "release:pre-release": "release-it --preRelease",
+    "release:dry": "release-it --dry-run"
+  },
+  "author": {
+    "name": "Benjamin DANIEL",
+    "email": "benjamin.daniel@neo9.fr"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neo9/n9-node-utils"
   },
-  "author": "Neo9 team",
-  "license": "MIT",
+  "homepage": "https://github.com/neo9/n9-node-utils#readme",
+  "engines": {
+    "node": ">= 16.20"
+  },
   "devDependencies": {
     "@ava/typescript": "^4.1.0",
     "@commitlint/cli": "^17.7.1",
     "@neo9/n9-coding-style": "^5.1.2",
     "@release-it/conventional-changelog": "^7.0.1",
+    "@tsconfig/node16": "^16.1.1",
     "@types/express": "^4.17.11",
     "@types/node": "^20.5.9",
     "ava": "^5.3.1",
-    "codecov": "^3.8.3",
     "husky": "4.3.8",
     "nyc": "^15.1.0",
     "prettier": "^3.0.3",
@@ -49,22 +60,9 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
-  "keywords": [
-    "node utils",
-    "utils",
-    "async await",
-    "waitFor",
-    "waitForEvent"
-  ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run format && npm run lint"
-    }
-  },
   "ava": {
     "files": [
-      "test/*"
+      "test/**/*.test.ts"
     ],
     "timeout": "1m",
     "extensions": [
@@ -73,5 +71,11 @@
     "require": [
       "ts-node/register"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run format && npm run lint"
+    }
   }
 }
