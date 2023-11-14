@@ -1,5 +1,17 @@
 
 
+# [3.0.0](https://github.com/neo9/n9-node-utils/compare/3.0.0-rc.0...3.0.0) (2023-11-14)
+
+
+### github
+
+* Add conditional lcov file generation ([e57576d](https://github.com/neo9/n9-node-utils/commit/e57576d8d16480f2f0d71abf5f45e70c641fb40c))
+
+### yarn
+
+* Fix husky dependency declaration ([7bf3cd9](https://github.com/neo9/n9-node-utils/commit/7bf3cd9615635bd3676a94432e8476553e342a21))
+* Upgrade dependencies and drop node 16 support in tests ([9b5f01c](https://github.com/neo9/n9-node-utils/commit/9b5f01c45a30f6ef736897144ea9b517eb5c6428))
+
 # [3.0.0-rc.0](https://github.com/neo9/n9-node-utils/compare/2.2.1...3.0.0-rc.0) (2023-10-13)
 
 
